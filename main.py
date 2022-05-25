@@ -38,12 +38,12 @@ def Table():
     noHoles = 6
     holes = []
 
-    h1 = Holes(0, 0, DARK)
-    h2 = Holes(WIDTH/2 - h1.r*2, 0, DARK)
-    h3 = Holes(WIDTH - h1.r - MARGIN - 5, 0, DARK)
-    h4 = Holes(0, HEIGHT - MARGIN - 5 - h1.r, DARK)
-    h5 = Holes(WIDTH/2 - h1.r*2, HEIGHT - MARGIN - 5 - h1.r, DARK)
-    h6 = Holes(WIDTH - h1.r - MARGIN - 5, HEIGHT - MARGIN - 5 - h1.r, DARK)
+    h1 = Holes(0, 0, BLACK)
+    h2 = Holes(WIDTH/2 - h1.r*2, 0, BLACK)
+    h3 = Holes(WIDTH - h1.r - MARGIN - 5, 0, BLACK)
+    h4 = Holes(0, HEIGHT - MARGIN - 5 - h1.r, BLACK)
+    h5 = Holes(WIDTH/2 - h1.r*2, HEIGHT - MARGIN - 5 - h1.r, BLACK)
+    h6 = Holes(WIDTH - h1.r - MARGIN - 5, HEIGHT - MARGIN - 5 - h1.r, BLACK)
 
     holes.append(h1)
     holes.append(h2)
