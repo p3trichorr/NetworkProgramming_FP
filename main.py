@@ -83,7 +83,65 @@ class CueStick:
         self.tangent = (degrees(atan2((cuey - self.y), (cuex - self.x))))
         pygame.draw.line(display, WHITE, (cuex + self.length*cos(radians(self.tangent)), cuey + self.length*sin(radians(self.tangent))), (cuex, cuey), 1)
         pygame.draw.line(display, self.color, (self.x, self.y), (cuex, cuey), 3)
+    
+    def applyForce(self, cueBall, force):
+        cueBall.angle = self.tangent
+        cueBall.speed = force
+        
+def collision(ball1, ball2):
+    dist = ((ball1.x - ball2.x)**2 + (ball1.y - ball2.y)**2)**0.5
+    if dist <= RADIUS*2:
+        return True
+    else:
+        return False
 
+def checkCueCollision(cueBall):
+    for i in range(len(balls)):
+        if collision(cueBall, balls[i]):
+            if balls[i].x == cueBall.x:
+                angleIncline = 2*90
+            else:
+                u1 = balls[i].speed
+                u2 = cueBall.speed
+
+                balls[i].speed = ((u1*cos(radians(balls[i].angle)))**2 + (u2*sin(radians(cueBall.angle)))**2)**0.5
+                cueBall.speed = ((u2*cos(radians(cueBall.angle)))**2 + (u1*sin(radians(balls[i].angle)))**2)**0.5
+
+                tangent = degrees((atan((balls[i].y - cueBall.y)/(balls[i].x - cueBall.x)))) + 90
+                angle = tangent + 90
+
+                balls[i].angle = (2*tangent - balls[i].angle)
+                cueBall.angle = (2*tangent - cueBall.angle)
+
+                balls[i].x += (balls[i].speed)*sin(radians(angle))
+                balls[i].y -= (balls[i].speed)*cos(radians(angle))
+                cueBall.x -= (cueBall.speed)*sin(radians(angle))
+                cueBall.y += (cueBall.speed)*cos(radians(angle))
+
+def checkCollision():
+    for i in range(len(balls)):
+        for j in range(len(balls) - 1, i, -1):
+            if collision(balls[i], balls[j]):
+                if balls[i].x == balls[j].x:
+                    angleIncline = 2*90
+                else:
+                    u1 = balls[i].speed
+                    u2 = balls[j].speed
+
+                    balls[i].speed = ((u1*cos(radians(balls[i].angle)))**2 + (u2*sin(radians(balls[j].angle)))**2)**0.5
+                    balls[j].speed = ((u2*cos(radians(balls[j].angle)))**2 + (u1*sin(radians(balls[i].angle)))**2)**0.5
+
+                    tangent = degrees((atan((balls[i].y - balls[j].y)/(balls[i].x - balls[j].x)))) + 90
+                    angle = tangent + 90
+
+                    balls[i].angle = (2*tangent - balls[i].angle)
+                    balls[j].angle = (2*tangent - balls[j].angle)
+
+                    balls[i].x += (balls[i].speed)*sin(radians(angle))
+                    balls[i].y -= (balls[i].speed)*cos(radians(angle))
+                    balls[j].x -= (balls[j].speed)*sin(radians(angle))
+                    balls[j].y += (balls[j].speed)*cos(radians(angle))
+    
 def initial_state():
     global balls
     balls = []
