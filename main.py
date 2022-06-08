@@ -191,7 +191,9 @@ def close():
 def Table():
     loop = True
     initial_state()
-
+    
+    start = 0
+    end = 0
     noHoles = 6
     holes = []
 
@@ -208,7 +210,7 @@ def Table():
     holes.append(h4)
     holes.append(h5)
     holes.append(h6)
-
+    
     cueBall = Ball(WIDTH/2, HEIGHT/2, 0, WHITE, 0, "cue")
     cueStick = CueStick(0, 0, 100, STICK_COLOR)
 
@@ -223,6 +225,17 @@ def Table():
 
                 if event.key == pygame.K_r:
                     Table()
+            
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                start = [cueBall.x, cueBall.y]
+                x, y = pygame.mouse.get_pos()
+                end = [x ,y]
+                dist = ((start[0] - end[0])**2 + (start[1] - end[1])**2)**0.5
+                force = dist/10.0
+                if force > 10:
+                    force = 10
+
+                cueStick.applyForce(cueBall, force)
 
         display.fill(BACK_COLOR)
 
@@ -230,11 +243,20 @@ def Table():
             balls[i].draw(balls[i].x, balls[i].y)
 
         cueBall.draw(cueBall.x, cueBall.y)
-
+        cueBall.move()
+        
         if not (cueBall.speed > 0):
 
             cueStick.draw(cueBall.x, cueBall.y)
-            
+        
+        for i in range(len(balls)):
+            balls[i].draw(balls[i].x, balls[i].y)
+
+        for i in range(len(balls)):
+           balls[i].move()
+        
+        checkCollision()
+        checkCueCollision(cueBall)      
         border()
         
         for i in range(noHoles):
