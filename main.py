@@ -30,6 +30,26 @@ class Ball:
                 display.blit(ballNo, (x - 6, y - 5))
             else:
                 display.blit(ballNo, (x - 5, y - 5))
+                
+    def move(self):
+        self.speed -= FRICTION
+        if self.speed <= 0:
+            self.speed = 0
+        self.x = self.x + self.speed*cos(radians(self.angle))
+        self.y = self.y + self.speed*sin(radians(self.angle))
+
+        if not (self.x < WIDTH - RADIUS - MARGIN):
+            self.x = WIDTH - RADIUS - MARGIN
+            self.angle = 180 - self.angle
+        if not(RADIUS + MARGIN < self.x):
+            self.x = RADIUS + MARGIN
+            self.angle = 180 - self.angle
+        if not (self.y < HEIGHT - RADIUS - MARGIN):
+            self.y = HEIGHT - RADIUS - MARGIN
+            self.angle = 360 - self.angle
+        if not(RADIUS + MARGIN < self.y):
+            self.y = RADIUS + MARGIN
+            self.angle = 360 - self.angle 
 
 class Holes:
     def __init__(self, x, y, color):
