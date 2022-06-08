@@ -48,6 +48,22 @@ def border():
     pygame.draw.rect(display, BORDER_COLOR, (WIDTH - 30, 0, WIDTH, HEIGHT))
     pygame.draw.rect(display, BORDER_COLOR, (0, HEIGHT - 30, WIDTH, HEIGHT))
 
+# Cue Stick Class
+class CueStick:
+    def __init__(self, x, y, length, color):
+        self.x = x
+        self.y = y
+        self.length = length
+        self.color = color
+        self.tangent = 0
+    
+    # Draws Cue Stick on Pygame Window
+    def draw(self, cuex, cuey):
+        self.x, self.y = pygame.mouse.get_pos()
+        self.tangent = (degrees(atan2((cuey - self.y), (cuex - self.x))))
+        pygame.draw.line(display, WHITE, (cuex + self.length*cos(radians(self.tangent)), cuey + self.length*sin(radians(self.tangent))), (cuex, cuey), 1)
+        pygame.draw.line(display, self.color, (self.x, self.y), (cuex, cuey), 3)
+
 def initial_state():
     global balls
     balls = []
@@ -116,6 +132,7 @@ def Table():
     holes.append(h6)
 
     cueBall = Ball(WIDTH/2, HEIGHT/2, 0, WHITE, 0, "cue")
+    cueStick = CueStick(0, 0, 100, STICK_COLOR)
 
     while loop:
         for event in pygame.event.get():
@@ -136,11 +153,15 @@ def Table():
 
         cueBall.draw(cueBall.x, cueBall.y)
 
-        border()
+        if not (cueBall.speed > 0):
 
+            cueStick.draw(cueBall.x, cueBall.y)
+            
+        border()
+        
         for i in range(noHoles):
             holes[i].draw()
-
+        
         scoreBar()
         pygame.display.update()
 
