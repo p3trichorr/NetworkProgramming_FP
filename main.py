@@ -241,6 +241,7 @@ def Table():
 
         for i in range(len(balls)):
             balls[i].draw(balls[i].x, balls[i].y)
+            # print("Ball {}: x={}, y={}".format(i, balls[i].x, balls[i].y))
 
         cueBall.draw(cueBall.x, cueBall.y)
         cueBall.move()
@@ -265,4 +266,4 @@ def Table():
         scoreBar()
         pygame.display.update()
 
-Table()
+# Table()
