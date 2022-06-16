@@ -61,7 +61,7 @@ def redrawWindow(win, game, p):
                 text1 = font.render("Waiting...", 1, (255, 0, 0))
 
             if game.p2point and p == 1:
-                text2 = font.render(point2, 1, (0,0,204))
+               text2 = font.render(point2, 1, (0,0,204))
             elif game.p2point:
                 text2 = font.render("Locked In", 1, (0, 0, 204))
             else:
@@ -97,7 +97,7 @@ def main():
             print("Couldn't get game")
             break
 
-        if game.bothPoint():
+        if int(game.bothPoint()) >= 21:
             
             redrawWindow(win, game, player)
             pygame.time.delay(500)
@@ -131,18 +131,18 @@ def main():
                 for btn in btns:
                     if btn.click(pos) and game.connected():
                         if player == 0:
-                            if not game.p1point:
+                            if game.p1point != 21 and game.p1point < 21:
                                 point = point + random.randint(0,9)
                                 n.send(str(point))
 
                         else:
-                            if not game.p2point:
+                            if game.p2point != 21 and game.p2point < 21:
                                 point = point + random.randint(0,9)
                                 n.send(str(point))
 
         redrawWindow(win, game, player)
 
-def menu_screen():
+def menu():
     run = True
     clock = pygame.time.Clock()
 
@@ -164,4 +164,4 @@ def menu_screen():
     main()
 
 while True:
-    menu_screen()
+    menu()
