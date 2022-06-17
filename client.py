@@ -1,6 +1,5 @@
 import pygame
 from network import Network
-import pickle
 import random
 pygame.font.init()
 
@@ -75,7 +74,7 @@ def redrawWindow(win, game, p):
 
     pygame.display.update()
 
-btns = [Button("Add", 250, 500, (0,255,34))]
+buttons = [Button("Add", 250, 500, (0,255,34))]
 def main():
     point = 0
     run = True
