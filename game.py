@@ -31,11 +31,17 @@ class Game:
         p2 = self.points[1]
 
         winner = -1
-        if p1 == 21 or p1-21 < p2-21:
+        if p1 == 21:
             winner = 0
-        elif p2 == 21 or p2-21 <  p1-21:
+        elif p1-21 < p2-21:
+            winner = 0
+        if p2 == 21:
             winner = 1
-            
+        elif p2-21 <  p1-21:
+            winner = 1
+        if p1 == 21 and p2 == 21:
+            winner = -1
+        
         return winner
 
     def resetPoint(self):

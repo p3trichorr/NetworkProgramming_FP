@@ -1,5 +1,3 @@
-from lib2to3 import pygram
-from matplotlib.pyplot import draw
 import pygame
 import random
 import socket
