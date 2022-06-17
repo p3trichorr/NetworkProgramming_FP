@@ -37,14 +37,14 @@ def redrawWindow(win, game, p):
 
     if not(game.connected()):
         font = pygame.font.SysFont("comicsans", 50)
-        text = font.render("Waiting for Player...", 1, (255,213,0))
+        text = font.render("You're Player 1, Waiting...", 1, (255,213,0))
         win.blit(text, (width/2 - text.get_width()/2, height/2 - text.get_height()/2))
     else:
         font = pygame.font.SysFont("comicsans", 60)
-        text = font.render("Your Move", 1, (255,0,0))
+        text = font.render("Player 1", 1, (255,0,0))
         win.blit(text, (35, 200))
 
-        text = font.render("Opponents", 1, (0, 0, 204))
+        text = font.render("Player 2", 1, (0, 0, 204))
         win.blit(text, (380, 200))
 
         point1 = str(game.get_player_points(0))
@@ -55,15 +55,11 @@ def redrawWindow(win, game, p):
         else:
             if game.p1point and p == 0:
                 text1 = font.render(point1, 1, (255,0,0))
-            elif game.p1point:
-                text1 = font.render("Locked In", 1, (255, 0, 0))
             else:
                 text1 = font.render("Waiting...", 1, (255, 0, 0))
 
             if game.p2point and p == 1:
                text2 = font.render(point2, 1, (0,0,204))
-            elif game.p2point:
-                text2 = font.render("Locked In", 1, (0, 0, 204))
             else:
                 text2 = font.render("Waiting...", 1, (0, 0, 204))
 
