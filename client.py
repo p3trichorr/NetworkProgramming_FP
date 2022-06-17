@@ -1,3 +1,5 @@
+from lib2to3 import pygram
+from matplotlib.pyplot import draw
 import pygame
 import random
 import socket
@@ -169,9 +171,11 @@ def menu():
 
     while run:
         clock.tick(60)
-        win.fill((128, 128, 128))
+        win.fill((255, 255, 255))
         font = pygame.font.SysFont("comicsans", 50)
-        text = font.render("Play!", 1, (255,255,255))
+        text = font.render("PLAY", 1, (255,0,0))
+        ellipse = pygame.draw.ellipse(win, (255,0,0), (width/2 - text.get_width()/2 - 24, height/2 - text.get_height()/2, 170,80), 5)
+        # pygame.draw.circle(win, (255,0,0), (width/2 - text.get_width()/2 - 24, height/2 - text.get_height()/2), 80, 1)
         win.blit(text, (width/2 - text.get_width()/2, height/2 - text.get_height()/2))
         pygame.display.update()
 
