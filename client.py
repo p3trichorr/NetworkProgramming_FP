@@ -1,12 +1,38 @@
 import pygame
-from network import Network
 import random
+import socket
+import pickle
 pygame.font.init()
 
 width = 700
 height = 700
 win = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Client")
+
+class Network:
+    def __init__(self):
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server = "localhost"
+        self.port = 5000
+        self.addr = (self.server, self.port)
+        self.p = self.connect()
+
+    def getP(self):
+        return self.p
+
+    def connect(self):
+        try:
+            self.client.connect(self.addr)
+            return self.client.recv(2048).decode()
+        except:
+            pass
+
+    def send(self, data):
+        try:
+            self.client.send(str.encode(data))
+            return pickle.loads(self.client.recv(2048*2))
+        except socket.error as e:
+            print(e)
 
 class Button:
     def __init__(self, text, x, y, color):
@@ -69,7 +95,7 @@ def redrawWindow(win, game, p):
             win.blit(text1, (35, 350))
             win.blit(text2, (400, 350))
 
-        for btn in btns:
+        for btn in buttons:
             btn.draw(win)
 
     pygame.display.update()
@@ -123,7 +149,7 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
-                for btn in btns:
+                for btn in buttons:
                     if btn.click(pos) and game.connected():
                         if player == 0:
                             if game.p1point != 21 and game.p1point < 21:
