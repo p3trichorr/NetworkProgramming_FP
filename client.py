@@ -6,7 +6,7 @@ pygame.font.init()
 
 width = 700
 height = 700
-win = pygame.display.set_mode((width, height))
+window  = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Client")
 
 class Network:
@@ -43,11 +43,11 @@ class Button:
         self.width = 150
         self.height = 100
 
-    def draw(self, win):
-        pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height))
+    def draw(self, window):
+        pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.height))
         font = pygame.font.SysFont("comicsans", 40)
         text = font.render(self.text, 1, (255,255,255))
-        win.blit(text, (self.x + round(self.width/2) - round(text.get_width()/2), self.y + round(self.height/2) - round(text.get_height()/2)))
+        window.blit(text, (self.x + round(self.width/2) - round(text.get_width()/2), self.y + round(self.height/2) - round(text.get_height()/2)))
 
     def click(self, pos):
         x1 = pos[0]
@@ -57,20 +57,20 @@ class Button:
         else:
             return False
 
-def redrawWindow(win, game, p):
-    win.fill((255,255,255))
+def redraw_window(window, game, p):
+    window.fill((255,255,255))
 
     if not(game.connected()):
         font = pygame.font.SysFont("comicsans", 50)
         text = font.render("You're Player 1, Waiting...", 1, (255,213,0))
-        win.blit(text, (width/2 - text.get_width()/2, height/2 - text.get_height()/2))
+        window.blit(text, (width/2 - text.get_width()/2, height/2 - text.get_height()/2))
     else:
         font = pygame.font.SysFont("comicsans", 60)
         text = font.render("Player 1", 1, (255,0,0))
-        win.blit(text, (35, 200))
+        window.blit(text, (35, 200))
 
         text = font.render("Player 2", 1, (0, 0, 204))
-        win.blit(text, (380, 200))
+        window.blit(text, (380, 200))
 
         point1 = str(game.get_player_points(0))
         point2 = str(game.get_player_points(1))
@@ -89,14 +89,14 @@ def redrawWindow(win, game, p):
                 text2 = font.render("Waiting...", 1, (0, 0, 204))
 
         if p == 1:
-            win.blit(text2, (400, 350))
-            win.blit(text1, (35, 350))
+            window.blit(text2, (400, 350))
+            window.blit(text1, (35, 350))
         else:
-            win.blit(text1, (35, 350))
-            win.blit(text2, (400, 350))
+            window.blit(text1, (35, 350))
+            window.blit(text2, (400, 350))
 
         for btn in buttons:
-            btn.draw(win)
+            btn.draw(window)
 
     pygame.display.update()
 
@@ -120,7 +120,7 @@ def main():
 
         if int(game.bothPoint()) >= 21:
             
-            redrawWindow(win, game, player)
+            redraw_window(window, game, player)
             pygame.time.delay(500)
             try:
                 game = n.send("reset")
@@ -138,7 +138,7 @@ def main():
             else:
                 text = font.render("You Lost...", 1, (255, 255, 255), (255,0,0))
 
-            win.blit(text, (width/2 - text.get_width()/2, height/2 - text.get_height()/2))
+            window.blit(text, (width/2 - text.get_width()/2, height/2 - text.get_height()/2))
             pygame.display.update()
             pygame.time.delay(2000)
 
@@ -161,7 +161,7 @@ def main():
                                 point = point + random.randint(0,9)
                                 n.send(str(point))
 
-        redrawWindow(win, game, player)
+        redraw_window(window, game, player)
 
 def menu():
     run = True
@@ -169,12 +169,14 @@ def menu():
 
     while run:
         clock.tick(60)
-        win.fill((255, 255, 255))
+        window.fill((255, 255, 255))
         font = pygame.font.SysFont("comicsans", 50)
         text = font.render("PLAY", 1, (255,0,0))
-        ellipse = pygame.draw.ellipse(win, (255,0,0), (width/2 - text.get_width()/2 - 24, height/2 - text.get_height()/2, 170,80), 5)
+        title = font.render("21 Game", 1, (128, 255, 0))
+        ellipse = pygame.draw.ellipse(window, (255,0,0), (width/2 - text.get_width()/2 - 24, height/2 - text.get_height()/2, 170,80), 5)
         # pygame.draw.circle(win, (255,0,0), (width/2 - text.get_width()/2 - 24, height/2 - text.get_height()/2), 80, 1)
-        win.blit(text, (width/2 - text.get_width()/2, height/2 - text.get_height()/2))
+        window.blit(title, (width/2 - 100, height/2 - 350))
+        window.blit(text, (width/2 - text.get_width()/2, height/2 - text.get_height()/2))
         pygame.display.update()
 
         for event in pygame.event.get():
